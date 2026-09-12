@@ -1,0 +1,439 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Smooth theme transition */
+html, body {
+  transition: background-color 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================================================
+   1. THEME: VOLCANO (DEFAULT - MAGMA & FIERY EMBERS)
+   ========================================================= */
+html[data-theme="volcano"], html[data-theme="volcano"] body {
+  background-color: #0c0505 !important;
+  color: #fef2f2 !important;
+  color-scheme: dark;
+}
+
+html[data-theme="volcano"] ::selection {
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+html[data-theme="volcano"] .theme-accent-bg {
+  background-color: #ea580c !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="volcano"] .theme-accent-text {
+  color: #f97316 !important;
+}
+
+html[data-theme="volcano"] .theme-accent-border {
+  border-color: #ea580c !important;
+}
+
+/* =========================================================
+   2. THEME: GALAXY (COSMIC VOID & SHOOTING STARS)
+   ========================================================= */
+html[data-theme="galaxy"], html[data-theme="galaxy"] body {
+  background-color: #070514 !important;
+  color: #faf5ff !important;
+  color-scheme: dark;
+}
+
+html[data-theme="galaxy"] ::selection {
+  background-color: #a855f7;
+  color: #ffffff;
+}
+
+html[data-theme="galaxy"] .theme-accent-bg {
+  background-color: #9333ea !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="galaxy"] .theme-accent-text {
+  color: #a855f7 !important;
+}
+
+html[data-theme="galaxy"] .theme-accent-border {
+  border-color: #9333ea !important;
+}
+
+/* =========================================================
+   3. THEME: CHERRY BLOSSOM (SAKURA & SPRING RADIANCE)
+   ========================================================= */
+html[data-theme="cherry_blossom"], html[data-theme="cherry_blossom"] body {
+  background-color: #fff5f7 !important;
+  color: #1e1b24 !important;
+  color-scheme: light;
+}
+
+html[data-theme="cherry_blossom"] ::selection {
+  background-color: #f43f5e;
+  color: #ffffff;
+}
+
+html[data-theme="cherry_blossom"] .theme-accent-bg {
+  background-color: #f43f5e !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="cherry_blossom"] .theme-accent-text {
+  color: #f43f5e !important;
+}
+
+html[data-theme="cherry_blossom"] .theme-accent-border {
+  border-color: #f43f5e !important;
+}
+
+/* =========================================================
+   4. THEME: OCEAN (DEEP ABYSS & RISING BUBBLES)
+   ========================================================= */
+html[data-theme="ocean"], html[data-theme="ocean"] body {
+  background-color: #041017 !important;
+  color: #f0fdfa !important;
+  color-scheme: dark;
+}
+
+html[data-theme="ocean"] ::selection {
+  background-color: #06b6d4;
+  color: #ffffff;
+}
+
+html[data-theme="ocean"] .theme-accent-bg {
+  background-color: #0891b2 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="ocean"] .theme-accent-text {
+  color: #06b6d4 !important;
+}
+
+html[data-theme="ocean"] .theme-accent-border {
+  border-color: #0891b2 !important;
+}
+
+/* Fallback default dark/light */
+html.dark:not([data-theme]), html.dark:not([data-theme]) body {
+  background-color: #05050e;
+  color: #f8fafc;
+  color-scheme: dark;
+}
+
+html:not(.dark):not([data-theme]), html:not(.dark):not([data-theme]) body {
+  background-color: #f2f7f3;
+  color: #0d2818;
+  color-scheme: light;
+}
+
+/* Universal Task Status Glows */
+.dark .glow-green {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4), 0 0 4px rgba(16, 185, 129, 0.25);
+}
+.glow-green {
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.22), 0 0 2px rgba(16, 185, 129, 0.15);
+}
+
+.dark .glow-red {
+  box-shadow: 0 0 20px rgba(244, 63, 94, 0.42), 0 0 4px rgba(244, 63, 94, 0.25);
+}
+.glow-red {
+  box-shadow: 0 4px 18px rgba(244, 63, 94, 0.22), 0 0 2px rgba(244, 63, 94, 0.15);
+}
+
+.dark .glow-amber {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.45), 0 0 4px rgba(245, 158, 11, 0.28);
+}
+.glow-amber {
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.28), 0 0 2px rgba(245, 158, 11, 0.18);
+}
+
+.dark .glow-cyan {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.42), 0 0 4px rgba(6, 182, 212, 0.25);
+}
+.glow-cyan {
+  box-shadow: 0 4px 18px rgba(6, 182, 212, 0.24), 0 0 2px rgba(6, 182, 212, 0.15);
+}
+
+/* =========================================================
+   RESPONSIVE CSS MEDIA QUERIES FOR BUTTONS & MOBILE ALIGNMENT
+   ========================================================= */
+
+/* Mobile Navigation Bar horizontal scroll without scrollbar */
+.mobile-nav-scroll {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.mobile-nav-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Prevent button wrapping & overlapping on small screens */
+.no-overlap-btn {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Specific Mobile Screen Adjustments (max-width: 640px) */
+@media screen and (max-width: 640px) {
+  /* Header top row: Brand on left, top-right controls with clear spacing */
+  .mobile-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  /* Top-right actions container: settings, themes, user account */
+  .mobile-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex-shrink: 0;
+  }
+
+  /* Compact button styling on mobile to prevent overlapping */
+  .mobile-action-btn {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.375rem;
+    padding-bottom: 0.375rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Task Item action buttons alignment on mobile */
+  .task-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex-shrink: 0;
+  }
+
+  /* Task input form buttons: wrap cleanly below input if needed */
+  .task-input-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .task-input-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  /* Workspace tabs on mobile: wrap into full-width cleanly */
+  .workspace-tabs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    width: 100%;
+  }
+
+  .workspace-tabs-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+    width: 100%;
+  }
+
+  /* Modal priority & duration controls: stack or flex-wrap without overlapping */
+  .modal-task-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    padding-left: 0;
+    width: 100%;
+  }
+
+  /* Calendar quick controls */
+  .calendar-jump-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+    width: 100%;
+  }
+}
+
+/* Extra small mobile screens (max-width: 420px) */
+@media screen and (max-width: 420px) {
+  .mobile-header-brand h1 {
+    font-size: 0.8125rem;
+  }
+
+  .mobile-hide-text {
+    display: none;
+  }
+
+  .mobile-action-btn span.label-text {
+    display: none;
+  }
+}
+
+/* =========================================================
+   FANCY LUXURY STYLING FOR "𝑴𝒂𝒅𝒆 𝑩𝒚 𝑨𝒓𝒏𝒂𝒃𝑽𝒆𝒓𝒔𝒆"
+   ========================================================= */
+@keyframes fancyGoldAura {
+  0% {
+    background-position: 0% 50%;
+    box-shadow: 0 0 14px rgba(234, 179, 8, 0.35), 0 0 28px rgba(245, 158, 11, 0.18), inset 0 0 10px rgba(254, 240, 138, 0.25);
+  }
+  50% {
+    background-position: 100% 50%;
+    box-shadow: 0 0 24px rgba(250, 204, 21, 0.55), 0 0 42px rgba(217, 119, 6, 0.3), inset 0 0 14px rgba(255, 255, 255, 0.4);
+  }
+  100% {
+    background-position: 0% 50%;
+    box-shadow: 0 0 14px rgba(234, 179, 8, 0.35), 0 0 28px rgba(245, 158, 11, 0.18), inset 0 0 10px rgba(254, 240, 138, 0.25);
+  }
+}
+
+@keyframes fancyStarTwinkle {
+  0%, 100% {
+    transform: scale(0.9) rotate(0deg);
+    opacity: 0.85;
+    filter: drop-shadow(0 0 4px #ffd700);
+  }
+  50% {
+    transform: scale(1.3) rotate(30deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 10px #ffe57f) drop-shadow(0 0 4px #ffffff);
+  }
+}
+
+@keyframes goldShimmer {
+  0% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.6));
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: drop-shadow(0 0 16px rgba(251, 191, 36, 0.95)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.9));
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.6));
+  }
+}
+
+.fancy-arnab-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(24, 20, 56, 0.92) 0%, rgba(15, 23, 42, 0.95) 50%, rgba(46, 16, 56, 0.92) 100%);
+  border: 1.5px solid rgba(250, 204, 21, 0.7);
+  animation: fancyGoldAura 3.8s ease-in-out infinite;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  user-select: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.fancy-arnab-badge:hover {
+  transform: scale(1.05);
+}
+
+.fancy-arnab-badge-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(24, 20, 56, 0.88) 0%, rgba(15, 23, 42, 0.92) 50%, rgba(46, 16, 56, 0.88) 100%);
+  border: 1px solid rgba(250, 204, 21, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 0 12px rgba(250, 204, 21, 0.25), inset 0 0 6px rgba(254, 240, 138, 0.2);
+  user-select: none;
+  transition: transform 0.25s ease;
+}
+
+.fancy-arnab-badge-mini:hover {
+  transform: scale(1.04);
+}
+
+.fancy-arnab-text {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  background: linear-gradient(
+    115deg,
+    #fffdf5 0%,
+    #fef08a 20%,
+    #ffd700 40%,
+    #ffffff 55%,
+    #f59e0b 75%,
+    #ffd700 90%,
+    #fffbeb 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldShimmer 3s ease-in-out infinite;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.fancy-arnab-star {
+  color: #ffd700;
+  animation: fancyStarTwinkle 2.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.sparkling-golden-text {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  background: linear-gradient(
+    110deg,
+    #bf953f 0%,
+    #fff2a8 22%,
+    #d4af37 40%,
+    #fffdf0 55%,
+    #aa771c 75%,
+    #ffd700 90%,
+    #fff4b8 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldShimmer 3.2s ease-in-out infinite;
+}
+
+.sparkling-golden-star {
+  color: #ffd700;
+  animation: fancyStarTwinkle 2.4s ease-in-out infinite;
+}
+
+.sparkling-golden-box {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(251, 191, 36, 0.16) 0%,
+    rgba(217, 119, 6, 0.08) 60%,
+    transparent 100%
+  );
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.25), inset 0 0 12px rgba(255, 215, 0, 0.12);
+}

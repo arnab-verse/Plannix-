@@ -1,0 +1,36 @@
+# Robots.txt for Plannix (Your Task Manager)
+# Explicitly allowing search engines and AI assistants
+User-agent: *
+Allow: /
+
+# Dedicated AI and LLM Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemaps and AI Machine Documentation
+Sitemap: https://plannix.app/sitemap.xml
+LLMs-Txt: https://plannix.app/llms.txt

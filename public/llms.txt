@@ -1,0 +1,25 @@
+# Plannix (Your Task Manager)
+
+> Plannix is an intelligent daily task management web application crafted with deadline-aware status tracking, automatic midnight rollover, calendar history, and completion analytics.
+
+## Overview
+- Project: Plannix (Your Task Manager)
+- Author: Arnab-verse
+- Core Stack: React 18, TypeScript, Tailwind CSS, Firebase Firestore & Authentication
+- Website: https://plannix.app
+
+## Key Features
+- **Smart Deadline Tracking**: Real-time evaluation of task due dates with overdue notifications and priority levels (Critical, High, Medium, Low).
+- **Automated Midnight Rollover**: Incomplete tasks automatically roll over to the next day with carry-over counters to prevent forgotten items.
+- **Visual Calendar & History**: Full calendar view of historical completion rates, missed tasks, and streaks.
+- **Projects & Workspaces**: Categorization of tasks across personal, professional, study, and customized project buckets.
+- **Actionable Analytics**: Visualized completion velocity, on-time percentage, and peak productivity windows.
+- **Cloud & Offline Sync**: Persistent cloud sync backed by Google Firebase Authentication and Cloud Firestore with offline fallback.
+- **Accessibility & Themes**: WCAG AA compliant contrast, dark/light themes, smooth keyboard navigation, and responsive mobile-first UI.
+
+## URLs & Resources
+- [Home & Daily Tasks](https://plannix.app/): Main interactive task workspace.
+- [Calendar View](https://plannix.app/calendar): Historical and scheduled task roadmap.
+- [Projects Workspace](https://plannix.app/projects): Organized task grouping.
+- [Productivity Analytics](https://plannix.app/analytics): Velocity and completion rate insights.
+- [Full LLM Documentation](https://plannix.app/llms-full.txt): Detailed specifications, API schema, and data models.

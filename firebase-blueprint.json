@@ -1,0 +1,151 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile document storing public identity information",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique Firebase Auth UID of the user"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the user"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the user"
+        },
+        "avatarUrl": {
+          "type": "string",
+          "description": "URL to the avatar image"
+        },
+        "authProvider": {
+          "type": "string",
+          "enum": ["google", "email"],
+          "description": "The authentication provider"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO timestamp of registration"
+        }
+      },
+      "required": ["id", "name", "email", "authProvider", "createdAt"]
+    },
+    "DailyTask": {
+      "title": "DailyTask",
+      "description": "A daily task item belonging to a specific user",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique task ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of the owner user"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the task"
+        },
+        "assignedDate": {
+          "type": "string",
+          "description": "Assigned date in YYYY-MM-DD format"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp"
+        },
+        "completedAt": {
+          "type": "string",
+          "description": "Completion timestamp or null"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "completed_on_time", "missed", "completed_late"],
+          "description": "Status of the task"
+        },
+        "originalStatus": {
+          "type": "string",
+          "enum": ["pending", "missed"],
+          "description": "Original status before completion"
+        },
+        "isCompletedOnTime": {
+          "type": "boolean",
+          "description": "Whether completed on time"
+        },
+        "isCompletedLate": {
+          "type": "boolean",
+          "description": "Whether completed late"
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last modification timestamp"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional notes"
+        }
+      },
+      "required": ["id", "userId", "title", "assignedDate", "createdAt", "status", "lastModified"]
+    },
+    "AccountRecord": {
+      "title": "AccountRecord",
+      "description": "Cross-device email account credential record",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "User ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name of the user"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User email address"
+        },
+        "passwordHash": {
+          "type": "string",
+          "description": "Secure salted password hash"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Account registration date"
+        },
+        "avatarUrl": {
+          "type": "string",
+          "description": "Avatar URL"
+        },
+        "authProvider": {
+          "type": "string",
+          "description": "Provider type"
+        }
+      },
+      "required": ["id", "name", "email", "passwordHash", "createdAt", "authProvider"]
+    }
+  },
+  "firestore": {
+    "/accounts/{emailKey}": {
+      "schema": "AccountRecord",
+      "description": "Cross-device credentials directory keyed by normalized email"
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile collection indexed by Firebase Auth UID or email key"
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": "DailyTask",
+      "description": "User specific tasks collection"
+    }
+  }
+}

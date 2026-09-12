@@ -1,0 +1,6 @@
+{
+  "name": "Plannix (Your Task Manager)",
+  "description": "A modern, responsive daily task management application with deadline-aware status tracking, automatic midnight rollover, calendar history, and completion analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,28 @@
+# Plannix (Your Task Manager) — Full Technical & Product Documentation
+
+## System Architecture
+Plannix is architected as a high-performance, single-page progressive web application built with TypeScript, React, Vite, and Tailwind CSS. State is managed reactively with local persistence caches synchronized against Firebase Cloud Firestore.
+
+## Core Data Schema
+- Task Model (`DailyTask`):
+  - `id`: Unique task identifier (UUID string).
+  - `title`: Task name / title string.
+  - `description`: Optional notes or context.
+  - `date`: Task target date in YYYY-MM-DD format.
+  - `priority`: 'critical' | 'high' | 'medium' | 'low'.
+  - `status`: 'pending' | 'in_progress' | 'completed_on_time' | 'completed_late' | 'missed' | 'rolled_over'.
+  - `rolloverCount`: Integer count tracking consecutive roll-overs.
+  - `createdAt`: ISO 8601 timestamp.
+  - `completedAt`: Optional ISO timestamp of completion.
+
+## Authentication & Security
+- Providers: Google OAuth 2.0 (via Firebase Authentication) & Email/Password.
+- Storage: Cloud Firestore with rule-based security segregation per user UID.
+- Unauthorized Domain Handling: Built-in diagnostic recovery guiding administrators to add domains in Firebase Console.
+
+## Performance & Standards Compliance
+- Single semantic H1 hierarchy per view.
+- Open Graph, Twitter Cards, and Schema.org WebApplication structured data.
+- Code-split vendor chunking with source map privacy protection.
+- Accessible ARIA labels and image alt attributes.
+- Author: Arnab-verse
