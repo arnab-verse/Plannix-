@@ -14,6 +14,22 @@ html, body {
 /* =========================================================
    1. THEME: VOLCANO (DEFAULT - MAGMA & FIERY EMBERS)
    ========================================================= */
+html[data-theme="volcano"] {
+  --theme-block-bg: linear-gradient(135deg, rgba(255, 237, 213, 0.16) 0%, rgba(234, 88, 12, 0.08) 100%);
+  --theme-block-sub-bg: rgba(255, 237, 213, 0.12);
+  --theme-block-border: rgba(249, 115, 22, 0.65);
+  --theme-block-border-hover: rgba(251, 146, 60, 0.95);
+  --theme-block-text: #fed7aa;
+  --theme-block-heading: #ffffff;
+  --theme-block-muted: #fdba74;
+  --theme-block-shadow: 0 8px 32px -4px rgba(234, 88, 12, 0.35), 0 0 1px rgba(249, 115, 22, 0.8);
+  --theme-accent-primary: #ea580c;
+  --theme-accent-secondary: #dc2626;
+  --theme-chip-bg: rgba(234, 88, 12, 0.28);
+  --theme-chip-text: #fed7aa;
+  --theme-btn-gradient: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+}
+
 html[data-theme="volcano"], html[data-theme="volcano"] body {
   background-color: #0c0505 !important;
   color: #fef2f2 !important;
@@ -41,6 +57,22 @@ html[data-theme="volcano"] .theme-accent-border {
 /* =========================================================
    2. THEME: GALAXY (COSMIC VOID & SHOOTING STARS)
    ========================================================= */
+html[data-theme="galaxy"] {
+  --theme-block-bg: linear-gradient(135deg, rgba(243, 232, 255, 0.16) 0%, rgba(147, 51, 234, 0.08) 100%);
+  --theme-block-sub-bg: rgba(243, 232, 255, 0.12);
+  --theme-block-border: rgba(168, 85, 247, 0.65);
+  --theme-block-border-hover: rgba(192, 132, 252, 0.95);
+  --theme-block-text: #e9d5ff;
+  --theme-block-heading: #ffffff;
+  --theme-block-muted: #d8b4fe;
+  --theme-block-shadow: 0 8px 32px -4px rgba(168, 85, 247, 0.35), 0 0 1px rgba(192, 132, 252, 0.8);
+  --theme-accent-primary: #9333ea;
+  --theme-accent-secondary: #7c3aed;
+  --theme-chip-bg: rgba(147, 51, 234, 0.28);
+  --theme-chip-text: #e9d5ff;
+  --theme-btn-gradient: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%);
+}
+
 html[data-theme="galaxy"], html[data-theme="galaxy"] body {
   background-color: #070514 !important;
   color: #faf5ff !important;
@@ -68,6 +100,22 @@ html[data-theme="galaxy"] .theme-accent-border {
 /* =========================================================
    3. THEME: CHERRY BLOSSOM (SAKURA & SPRING RADIANCE)
    ========================================================= */
+html[data-theme="cherry_blossom"] {
+  --theme-block-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 241, 242, 0.35) 100%);
+  --theme-block-sub-bg: rgba(255, 241, 242, 0.40);
+  --theme-block-border: rgba(244, 63, 94, 0.5);
+  --theme-block-border-hover: rgba(225, 29, 72, 0.9);
+  --theme-block-text: #1e1b24;
+  --theme-block-heading: #1e1b24;
+  --theme-block-muted: #9f1239;
+  --theme-block-shadow: 0 8px 32px -4px rgba(244, 63, 94, 0.15), 0 0 1px rgba(244, 63, 94, 0.5);
+  --theme-accent-primary: #f43f5e;
+  --theme-accent-secondary: #e11d48;
+  --theme-chip-bg: rgba(255, 228, 230, 0.50);
+  --theme-chip-text: #9f1239;
+  --theme-btn-gradient: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+}
+
 html[data-theme="cherry_blossom"], html[data-theme="cherry_blossom"] body {
   background-color: #fff5f7 !important;
   color: #1e1b24 !important;
@@ -95,6 +143,22 @@ html[data-theme="cherry_blossom"] .theme-accent-border {
 /* =========================================================
    4. THEME: OCEAN (DEEP ABYSS & RISING BUBBLES)
    ========================================================= */
+html[data-theme="ocean"] {
+  --theme-block-bg: linear-gradient(135deg, rgba(207, 250, 254, 0.16) 0%, rgba(6, 182, 212, 0.08) 100%);
+  --theme-block-sub-bg: rgba(207, 250, 254, 0.12);
+  --theme-block-border: rgba(6, 182, 212, 0.65);
+  --theme-block-border-hover: rgba(34, 211, 238, 0.95);
+  --theme-block-text: #a5f3fc;
+  --theme-block-heading: #ffffff;
+  --theme-block-muted: #67e8f9;
+  --theme-block-shadow: 0 8px 32px -4px rgba(6, 182, 212, 0.35), 0 0 1px rgba(14, 165, 233, 0.8);
+  --theme-accent-primary: #0891b2;
+  --theme-accent-secondary: #0284c7;
+  --theme-chip-bg: rgba(6, 182, 212, 0.28);
+  --theme-chip-text: #a5f3fc;
+  --theme-btn-gradient: linear-gradient(135deg, #0891b2 0%, #0284c7 100%);
+}
+
 html[data-theme="ocean"], html[data-theme="ocean"] body {
   background-color: #041017 !important;
   color: #f0fdfa !important;
@@ -117,6 +181,341 @@ html[data-theme="ocean"] .theme-accent-text {
 
 html[data-theme="ocean"] .theme-accent-border {
   border-color: #0891b2 !important;
+}
+
+/* =========================================================
+   LIGHT CONTRASTING THEME BLOCKS FOR VOLCANO, OCEAN, GALAXY & CHERRY BLOSSOM
+   ========================================================= */
+
+/* Primary theme block cards */
+.theme-card,
+html[data-theme="volcano"] .dark\:bg-\[\#090c23\]\/75,
+html[data-theme="volcano"] .dark\:bg-\[\#090c23\]\/80,
+html[data-theme="volcano"] .dark\:bg-\[\#090c23\]\/85,
+html[data-theme="volcano"] .dark\:bg-\[\#090c23\],
+html[data-theme="volcano"] .dark\:bg-\[\#0c0e29\]\/75,
+html[data-theme="volcano"] .dark\:bg-\[\#0c0e29\]\/70,
+html[data-theme="volcano"] .dark\:bg-\[\#0c0e29\]\/90,
+html[data-theme="volcano"] .dark\:bg-\[\#0c0e29\],
+html[data-theme="volcano"] .dark\:bg-\[\#090c25\]\/75,
+html[data-theme="volcano"] .dark\:bg-\[\#0c0f28\]\/75,
+html[data-theme="volcano"] .dark\:bg-\[\#0c0f2a\]\/70,
+html[data-theme="volcano"] .dark\:bg-\[\#090b22\]\/50,
+html[data-theme="volcano"] .dark\:bg-\[\#070818\]\/75,
+html[data-theme="volcano"] .dark\:bg-\[\#0c0e2a\]\/75,
+html[data-theme="volcano"] .dark\:bg-\[\#0c0e2a\]\/90,
+html[data-theme="volcano"] .dark\:bg-\[\#12163b\]\/85,
+html[data-theme="volcano"] .dark\:bg-\[\#12163b\]\/80,
+html[data-theme="volcano"] .dark\:bg-\[\#12153a\]\/80,
+html[data-theme="volcano"] .dark\:bg-\[\#0c0e25\]\/70,
+html[data-theme="volcano"] .dark\:bg-\[\#0f1233\]\/80,
+html[data-theme="volcano"] .dark\:bg-\[\#111333\]\/90,
+html[data-theme="volcano"] .dark\:bg-\[\#0e1131\]\/60,
+html[data-theme="volcano"] .bg-white\/75,
+html[data-theme="volcano"] .bg-white\/80,
+html[data-theme="volcano"] .bg-white\/90,
+html[data-theme="volcano"] .bg-white,
+html[data-theme="ocean"] .dark\:bg-\[\#090c23\]\/75,
+html[data-theme="ocean"] .dark\:bg-\[\#090c23\]\/80,
+html[data-theme="ocean"] .dark\:bg-\[\#090c23\]\/85,
+html[data-theme="ocean"] .dark\:bg-\[\#090c23\],
+html[data-theme="ocean"] .dark\:bg-\[\#0c0e29\]\/75,
+html[data-theme="ocean"] .dark\:bg-\[\#0c0e29\]\/70,
+html[data-theme="ocean"] .dark\:bg-\[\#0c0e29\]\/90,
+html[data-theme="ocean"] .dark\:bg-\[\#0c0e29\],
+html[data-theme="ocean"] .dark\:bg-\[\#090c25\]\/75,
+html[data-theme="ocean"] .dark\:bg-\[\#0c0f28\]\/75,
+html[data-theme="ocean"] .dark\:bg-\[\#0c0f2a\]\/70,
+html[data-theme="ocean"] .dark\:bg-\[\#090b22\]\/50,
+html[data-theme="ocean"] .dark\:bg-\[\#070818\]\/75,
+html[data-theme="ocean"] .dark\:bg-\[\#0c0e2a\]\/75,
+html[data-theme="ocean"] .dark\:bg-\[\#0c0e2a\]\/90,
+html[data-theme="ocean"] .dark\:bg-\[\#12163b\]\/85,
+html[data-theme="ocean"] .dark\:bg-\[\#12163b\]\/80,
+html[data-theme="ocean"] .dark\:bg-\[\#12153a\]\/80,
+html[data-theme="ocean"] .dark\:bg-\[\#0c0e25\]\/70,
+html[data-theme="ocean"] .dark\:bg-\[\#0f1233\]\/80,
+html[data-theme="ocean"] .dark\:bg-\[\#111333\]\/90,
+html[data-theme="ocean"] .dark\:bg-\[\#0e1131\]\/60,
+html[data-theme="ocean"] .bg-white\/75,
+html[data-theme="ocean"] .bg-white\/80,
+html[data-theme="ocean"] .bg-white\/90,
+html[data-theme="ocean"] .bg-white,
+html[data-theme="galaxy"] .dark\:bg-\[\#090c23\]\/75,
+html[data-theme="galaxy"] .dark\:bg-\[\#090c23\]\/80,
+html[data-theme="galaxy"] .dark\:bg-\[\#090c23\]\/85,
+html[data-theme="galaxy"] .dark\:bg-\[\#090c23\],
+html[data-theme="galaxy"] .dark\:bg-\[\#0c0e29\]\/75,
+html[data-theme="galaxy"] .dark\:bg-\[\#0c0e29\]\/70,
+html[data-theme="galaxy"] .dark\:bg-\[\#0c0e29\]\/90,
+html[data-theme="galaxy"] .dark\:bg-\[\#0c0e29\],
+html[data-theme="galaxy"] .dark\:bg-\[\#090c25\]\/75,
+html[data-theme="galaxy"] .dark\:bg-\[\#0c0f28\]\/75,
+html[data-theme="galaxy"] .dark\:bg-\[\#0c0f2a\]\/70,
+html[data-theme="galaxy"] .dark\:bg-\[\#090b22\]\/50,
+html[data-theme="galaxy"] .dark\:bg-\[\#070818\]\/75,
+html[data-theme="galaxy"] .dark\:bg-\[\#0c0e2a\]\/75,
+html[data-theme="galaxy"] .dark\:bg-\[\#0c0e2a\]\/90,
+html[data-theme="galaxy"] .dark\:bg-\[\#12163b\]\/85,
+html[data-theme="galaxy"] .dark\:bg-\[\#12163b\]\/80,
+html[data-theme="galaxy"] .dark\:bg-\[\#12153a\]\/80,
+html[data-theme="galaxy"] .dark\:bg-\[\#0c0e25\]\/70,
+html[data-theme="galaxy"] .dark\:bg-\[\#0f1233\]\/80,
+html[data-theme="galaxy"] .dark\:bg-\[\#111333\]\/90,
+html[data-theme="galaxy"] .dark\:bg-\[\#0e1131\]\/60,
+html[data-theme="galaxy"] .bg-white\/75,
+html[data-theme="galaxy"] .bg-white\/80,
+html[data-theme="galaxy"] .bg-white\/90,
+html[data-theme="galaxy"] .bg-white,
+html[data-theme="cherry_blossom"] .bg-white\/75,
+html[data-theme="cherry_blossom"] .bg-white\/80,
+html[data-theme="cherry_blossom"] .bg-white\/90,
+html[data-theme="cherry_blossom"] .bg-white {
+  background: var(--theme-block-bg) !important;
+  border-color: var(--theme-block-border) !important;
+  box-shadow: var(--theme-block-shadow) !important;
+  color: var(--theme-block-text) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Card borders that were purply in dark mode */
+html[data-theme="volcano"] .dark\:border-purple-500\/20,
+html[data-theme="volcano"] .dark\:border-purple-500\/25,
+html[data-theme="volcano"] .dark\:border-purple-500\/30,
+html[data-theme="volcano"] .dark\:border-purple-500\/40,
+html[data-theme="volcano"] .dark\:border-purple-500 {
+  border-color: var(--theme-block-border) !important;
+}
+html[data-theme="ocean"] .dark\:border-purple-500\/20,
+html[data-theme="ocean"] .dark\:border-purple-500\/25,
+html[data-theme="ocean"] .dark\:border-purple-500\/30,
+html[data-theme="ocean"] .dark\:border-purple-500\/40,
+html[data-theme="ocean"] .dark\:border-purple-500 {
+  border-color: var(--theme-block-border) !important;
+}
+html[data-theme="galaxy"] .dark\:border-purple-500\/20,
+html[data-theme="galaxy"] .dark\:border-purple-500\/25,
+html[data-theme="galaxy"] .dark\:border-purple-500\/30,
+html[data-theme="galaxy"] .dark\:border-purple-500\/40,
+html[data-theme="galaxy"] .dark\:border-purple-500 {
+  border-color: var(--theme-block-border) !important;
+}
+
+/* Header sticky top bar */
+html[data-theme="volcano"] header.sticky,
+html[data-theme="ocean"] header.sticky,
+html[data-theme="galaxy"] header.sticky {
+  background: var(--theme-block-bg) !important;
+  border-bottom: 1.5px solid var(--theme-block-border) !important;
+  box-shadow: var(--theme-block-shadow) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+/* Sub-card blocks, badges and chips that were dark purple-950 */
+.theme-sub-card,
+html[data-theme="volcano"] .dark\:bg-purple-950\/40,
+html[data-theme="volcano"] .dark\:bg-purple-950\/50,
+html[data-theme="volcano"] .dark\:bg-purple-950\/60,
+html[data-theme="volcano"] .dark\:bg-purple-950\/80,
+html[data-theme="volcano"] .dark\:bg-purple-950,
+html[data-theme="ocean"] .dark\:bg-purple-950\/40,
+html[data-theme="ocean"] .dark\:bg-purple-950\/50,
+html[data-theme="ocean"] .dark\:bg-purple-950\/60,
+html[data-theme="ocean"] .dark\:bg-purple-950\/80,
+html[data-theme="ocean"] .dark\:bg-purple-950,
+html[data-theme="galaxy"] .dark\:bg-purple-950\/40,
+html[data-theme="galaxy"] .dark\:bg-purple-950\/50,
+html[data-theme="galaxy"] .dark\:bg-purple-950\/60,
+html[data-theme="galaxy"] .dark\:bg-purple-950\/80,
+html[data-theme="galaxy"] .dark\:bg-purple-950 {
+  background: var(--theme-chip-bg) !important;
+  color: var(--theme-chip-text) !important;
+  border-color: var(--theme-block-border) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* High-contrast Headings and text inside transparent blocks */
+html[data-theme="volcano"] .dark\:text-white,
+html[data-theme="volcano"] .dark\:text-slate-100 {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+html[data-theme="volcano"] .dark\:text-slate-200,
+html[data-theme="volcano"] .dark\:text-slate-300 {
+  color: #fed7aa !important;
+}
+html[data-theme="volcano"] .dark\:text-slate-400,
+html[data-theme="volcano"] .dark\:text-slate-500 {
+  color: #fdba74 !important;
+}
+html[data-theme="volcano"] .dark\:text-purple-400,
+html[data-theme="volcano"] .dark\:text-purple-300,
+html[data-theme="volcano"] .dark\:text-purple-200 {
+  color: #fb923c !important;
+}
+
+html[data-theme="ocean"] .dark\:text-white,
+html[data-theme="ocean"] .dark\:text-slate-100 {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+html[data-theme="ocean"] .dark\:text-slate-200,
+html[data-theme="ocean"] .dark\:text-slate-300 {
+  color: #cffafe !important;
+}
+html[data-theme="ocean"] .dark\:text-slate-400,
+html[data-theme="ocean"] .dark\:text-slate-500 {
+  color: #67e8f9 !important;
+}
+html[data-theme="ocean"] .dark\:text-purple-400,
+html[data-theme="ocean"] .dark\:text-purple-300,
+html[data-theme="ocean"] .dark\:text-purple-200 {
+  color: #22d3ee !important;
+}
+
+html[data-theme="galaxy"] .dark\:text-white,
+html[data-theme="galaxy"] .dark\:text-slate-100 {
+  color: #ffffff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+html[data-theme="galaxy"] .dark\:text-slate-200,
+html[data-theme="galaxy"] .dark\:text-slate-300 {
+  color: #f3e8ff !important;
+}
+html[data-theme="galaxy"] .dark\:text-slate-400,
+html[data-theme="galaxy"] .dark\:text-slate-500 {
+  color: #d8b4fe !important;
+}
+html[data-theme="galaxy"] .dark\:text-purple-400,
+html[data-theme="galaxy"] .dark\:text-purple-300,
+html[data-theme="galaxy"] .dark\:text-purple-200 {
+  color: #c084fc !important;
+}
+
+/* Form inputs & textareas inside cards: crisp translucent surface with theme border */
+html[data-theme="volcano"] input:not([type="checkbox"]):not([type="radio"]),
+html[data-theme="volcano"] textarea,
+html[data-theme="volcano"] select {
+  background-color: rgba(255, 247, 237, 0.12) !important;
+  color: #ffffff !important;
+  border-color: rgba(249, 115, 22, 0.5) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-theme="volcano"] input::placeholder,
+html[data-theme="volcano"] textarea::placeholder {
+  color: #fed7aa !important;
+  opacity: 0.7;
+}
+
+html[data-theme="ocean"] input:not([type="checkbox"]):not([type="radio"]),
+html[data-theme="ocean"] textarea,
+html[data-theme="ocean"] select {
+  background-color: rgba(207, 250, 254, 0.12) !important;
+  color: #ffffff !important;
+  border-color: rgba(6, 182, 212, 0.5) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-theme="ocean"] input::placeholder,
+html[data-theme="ocean"] textarea::placeholder {
+  color: #a5f3fc !important;
+  opacity: 0.7;
+}
+
+html[data-theme="galaxy"] input:not([type="checkbox"]):not([type="radio"]),
+html[data-theme="galaxy"] textarea,
+html[data-theme="galaxy"] select {
+  background-color: rgba(243, 232, 255, 0.12) !important;
+  color: #ffffff !important;
+  border-color: rgba(168, 85, 247, 0.5) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-theme="galaxy"] input::placeholder,
+html[data-theme="galaxy"] textarea::placeholder {
+  color: #e9d5ff !important;
+  opacity: 0.7;
+}
+/* Secondary & action buttons inside blocks */
+html[data-theme="volcano"] .dark\:bg-slate-900\/80,
+html[data-theme="volcano"] .dark\:bg-slate-900\/60,
+html[data-theme="volcano"] .dark\:bg-slate-900 {
+  background-color: rgba(255, 237, 213, 0.18) !important;
+  color: #fed7aa !important;
+  border-color: rgba(249, 115, 22, 0.5) !important;
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+
+html[data-theme="ocean"] .dark\:bg-slate-900\/80,
+html[data-theme="ocean"] .dark\:bg-slate-900\/60,
+html[data-theme="ocean"] .dark\:bg-slate-900 {
+  background-color: rgba(207, 250, 254, 0.18) !important;
+  color: #a5f3fc !important;
+  border-color: rgba(6, 182, 212, 0.5) !important;
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+
+html[data-theme="galaxy"] .dark\:bg-slate-900\/80,
+html[data-theme="galaxy"] .dark\:bg-slate-900\/60,
+html[data-theme="galaxy"] .dark\:bg-slate-900 {
+  background-color: rgba(243, 232, 255, 0.18) !important;
+  color: #e9d5ff !important;
+  border-color: rgba(168, 85, 247, 0.5) !important;
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+
+/* Translucent status cards in statistics and history views */
+html[data-theme="volcano"] .dark\:bg-\[\#0c1a18\]\/60,
+html[data-theme="ocean"] .dark\:bg-\[\#0c1a18\]\/60,
+html[data-theme="galaxy"] .dark\:bg-\[\#0c1a18\]\/60 {
+  background-color: rgba(16, 185, 129, 0.18) !important;
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+
+html[data-theme="volcano"] .dark\:bg-\[\#1a1609\]\/60,
+html[data-theme="ocean"] .dark\:bg-\[\#1a1609\]\/60,
+html[data-theme="galaxy"] .dark\:bg-\[\#1a1609\]\/60 {
+  background-color: rgba(245, 158, 11, 0.18) !important;
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+
+html[data-theme="volcano"] .dark\:bg-\[\#1a0a10\]\/60,
+html[data-theme="ocean"] .dark\:bg-\[\#1a0a10\]\/60,
+html[data-theme="galaxy"] .dark\:bg-\[\#1a0a10\]\/60 {
+  background-color: rgba(239, 68, 68, 0.18) !important;
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+
+/* Primary buttons with theme-tailored gradients */
+html[data-theme="volcano"] .dark\:bg-purple-600,
+html[data-theme="volcano"] .dark\:from-purple-600\/50 {
+  background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%) !important;
+  color: #ffffff !important;
+  border-color: #ea580c !important;
+}
+
+html[data-theme="ocean"] .dark\:bg-purple-600,
+html[data-theme="ocean"] .dark\:from-purple-600\/50 {
+  background: linear-gradient(135deg, #0891b2 0%, #0284c7 100%) !important;
+  color: #ffffff !important;
+  border-color: #0891b2 !important;
+}
+
+html[data-theme="galaxy"] .dark\:bg-purple-600,
+html[data-theme="galaxy"] .dark\:from-purple-600\/50 {
+  background: linear-gradient(135deg, #9333ea 0%, #7c3aed 100%) !important;
+  color: #ffffff !important;
+  border-color: #9333ea !important;
 }
 
 /* Fallback default dark/light */
@@ -158,7 +557,7 @@ html:not(.dark):not([data-theme]), html:not(.dark):not([data-theme]) body {
   box-shadow: 0 0 20px rgba(6, 182, 212, 0.42), 0 0 4px rgba(6, 182, 212, 0.25);
 }
 .glow-cyan {
-  box-shadow: 0 4px 18px rgba(6, 182, 212, 0.24), 0 0 2px rgba(6, 182, 212, 0.15);
+  box-shadow: 0 4px 18px rgba(6, 182, 212, 0.24), 0 0 2px rgba(16, 182, 212, 0.15);
 }
 
 /* =========================================================
@@ -436,4 +835,26 @@ html:not(.dark):not([data-theme]), html:not(.dark):not([data-theme]) body {
     transparent 100%
   );
   box-shadow: 0 0 20px rgba(251, 191, 36, 0.25), inset 0 0 12px rgba(255, 215, 0, 0.12);
+}
+
+/* User Selection: Header Themes Dropdown - Solid Crimson Red (Non-Transparent) */
+#header-themes-dropdown,
+html[data-theme="volcano"] #header-themes-dropdown,
+html[data-theme="ocean"] #header-themes-dropdown,
+html[data-theme="galaxy"] #header-themes-dropdown,
+html[data-theme="cherry_blossom"] #header-themes-dropdown,
+html.dark #header-themes-dropdown,
+div#header-themes-dropdown {
+  background: #990011 !important;
+  background-color: #990011 !important;
+  background-image: linear-gradient(145deg, #be123c 0%, #990011 55%, #7f1d1d 100%) !important;
+  border: 2px solid #f43f5e !important;
+  box-shadow: 0 20px 45px rgba(153, 0, 17, 0.75), 0 0 18px rgba(220, 20, 60, 0.5) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  opacity: 1 !important;
+}
+
+#header-themes-dropdown * {
+  text-shadow: none;
 }
