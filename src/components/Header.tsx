@@ -51,7 +51,35 @@ interface HeaderProps {
   onLogout?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({
+const LiveClock: React.FC = React.memo(() => {
+  const [timeString, setTimeString] = useState<string>(() => {
+    return new Date().toLocaleTimeString(undefined, {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true,
+    });
+  });
+
+  useEffect(() => {
+    const update = () => {
+      setTimeString(
+        new Date().toLocaleTimeString(undefined, {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: true,
+        })
+      );
+    };
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return <span className="tabular-nums font-medium whitespace-nowrap">{timeString}</span>;
+});
+
+export const Header: React.FC<HeaderProps> = React.memo(({
   currentView,
   activeTab,
   onSelectView,
@@ -93,7 +121,6 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
-  const [timeString, setTimeString] = useState<string>('');
   const [isThemesOpen, setIsThemesOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const themesMenuRef = useRef<HTMLDivElement>(null);
@@ -116,23 +143,6 @@ export const Header: React.FC<HeaderProps> = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isThemesOpen, isProfileOpen]);
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTimeString(
-        now.toLocaleTimeString(undefined, {
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true,
-        })
-      );
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   // Settings removed from the top navigation bar per user request and moved to the top right corner!
   const navItems: { id: AppView; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
@@ -251,7 +261,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
                 <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">
                   <Clock className="h-3 w-3 shrink-0 text-sky-500 dark:text-purple-400" />
-                  <span className="tabular-nums font-medium whitespace-nowrap">{timeString || '12:00 PM'}</span>
+                  <LiveClock />
                 </div>
               </div>
             </div>
@@ -294,13 +304,14 @@ export const Header: React.FC<HeaderProps> = ({
                     role="menu"
                     aria-orientation="vertical"
                     id="header-themes-dropdown"
-                    className="absolute right-0 top-full mt-2 w-60 sm:w-64 rounded-2xl border border-amber-500/30 bg-white/90 p-2 shadow-2xl backdrop-blur-xl dark:border-amber-500/40 dark:bg-[#0f1128]/90 z-50 animate-in fade-in slide-in-from-top-2 duration-200"
+                    className="absolute right-0 top-full mt-2 w-60 sm:w-64 rounded-2xl border-2 border-rose-400/80 bg-[#990011] p-2 shadow-[0_20px_45px_rgba(153,0,17,0.75),0_0_15px_rgba(220,20,60,0.5)] z-50 animate-in fade-in slide-in-from-top-2 duration-200 select-none"
+                    style={{ backgroundColor: '#990011', opacity: 1 }}
                   >
-                    <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-slate-100 dark:border-white/5 mb-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
+                    <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-rose-300/30 mb-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-rose-200">
                         Theme Atmosphere
                       </span>
-                      <span className="text-[10px] font-medium text-amber-600 dark:text-amber-400">
+                      <span className="text-[10px] font-semibold text-rose-100 bg-rose-900/60 px-1.5 py-0.5 rounded border border-rose-400/40">
                         Default: Volcano
                       </span>
                     </div>
@@ -319,28 +330,28 @@ export const Header: React.FC<HeaderProps> = ({
                             }}
                             className={`flex w-full items-center justify-between gap-2.5 rounded-xl px-2.5 py-2 text-left text-xs font-semibold transition-all cursor-pointer ${
                               isSelected
-                                ? 'bg-gradient-to-r from-amber-500/20 via-orange-500/15 to-red-500/20 text-orange-950 font-bold border border-amber-500/40 dark:from-amber-950/70 dark:to-orange-950/70 dark:text-amber-200'
-                                : 'text-slate-700 hover:bg-slate-100/80 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white'
+                                ? 'bg-white/25 text-white font-bold border border-white/50 shadow-sm'
+                                : 'text-rose-100 hover:bg-white/15 hover:text-white border border-transparent'
                             }`}
                           >
                             <div className="flex items-center gap-2.5">
                               <span className="text-lg">{th.emoji}</span>
                               <div>
-                                <div className="flex items-center gap-1.5 font-bold">
+                                <div className="flex items-center gap-1.5 font-bold text-white">
                                   <span>{th.label}</span>
                                   {th.id === 'volcano' && (
-                                    <span className="rounded bg-amber-500/20 px-1 py-0.2 text-[9px] font-extrabold text-amber-700 dark:text-amber-300">
+                                    <span className="rounded bg-white/30 px-1 py-0.2 text-[9px] font-extrabold text-white">
                                       Default
                                     </span>
                                   )}
                                 </div>
-                                <span className="text-[10px] font-normal text-slate-500 dark:text-slate-400 leading-tight block">
+                                <span className="text-[10px] font-normal text-rose-200 leading-tight block">
                                   {th.description}
                                 </span>
                               </div>
                             </div>
                             {isSelected && (
-                              <Check className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                              <Check className="h-4 w-4 text-white shrink-0" />
                             )}
                           </button>
                         );
@@ -430,7 +441,7 @@ export const Header: React.FC<HeaderProps> = ({
                             referrerPolicy="no-referrer"
                             className="h-14 w-14 sm:h-16 sm:w-16 rounded-full border-2 border-sky-400 object-cover shadow-sm dark:border-purple-400"
                           />
-                          <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-[#0c0e2a]" />
+               <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 ring-2 ring-white dark:ring-[#0c0e2a]" />
                         </div>
                         <h3 className="mt-2.5 text-sm sm:text-base font-black text-slate-900 dark:text-white truncate max-w-full">
                           {currentUser.name}
@@ -589,4 +600,6 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
     </header>
   );
-};
+});
+
+Header.displayName = 'Header';
