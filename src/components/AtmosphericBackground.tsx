@@ -23,6 +23,7 @@ interface Particle {
   wobbleSpeed?: number;
   rotation?: number;
   rotationSpeed?: number;
+  hasFlare?: boolean;
 }
 
 interface ShootingStar {
@@ -32,6 +33,7 @@ interface ShootingStar {
   speed: number;
   angle: number;
   opacity: number;
+  color: string;
   active: boolean;
 }
 
@@ -41,22 +43,41 @@ export const AtmosphericBackground = React.memo<AtmosphericBackgroundProps>(({ t
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+
+    const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
     if (!ctx) return;
 
     let animationFrameId: number;
+    let isRunning = true;
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
+    let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
     const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (!canvas) return;
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }, 200);
     };
 
-    window.addEventListener('resize', handleResize);
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        isRunning = false;
+        cancelAnimationFrame(animationFrameId);
+      } else {
+        if (!isRunning) {
+          isRunning = true;
+          lastFrameTime = performance.now();
+          animationFrameId = requestAnimationFrame(render);
+        }
+      }
+    };
 
-    // Particles system initialization
+    window.addEventListener('resize', handleResize, { passive: true });
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     let particles: Particle[] = [];
     let shootingStars: ShootingStar[] = [];
 
@@ -64,102 +85,105 @@ export const AtmosphericBackground = React.memo<AtmosphericBackgroundProps>(({ t
       particles = [];
       shootingStars = [];
 
+      // 1. VOLCANO THEME: Fiery rising embers
       if (theme === 'volcano') {
         const count = 45;
         const colors = [
-          'rgba(239, 68, 68, ',
+          'rgba(255, 87, 34, ',
           'rgba(249, 115, 22, ',
-          'rgba(245, 158, 11, ',
-          'rgba(251, 191, 36, ',
+          'rgba(251, 146, 60, ',
+          'rgba(239, 68, 68, ',
+          'rgba(253, 224, 71, ',
         ];
         for (let i = 0; i < count; i++) {
           particles.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            size: Math.random() * 3 + 1.2,
+            size: Math.random() * 3.5 + 2,
             speedY: -(Math.random() * 1.2 + 0.4),
             speedX: (Math.random() - 0.5) * 0.5,
-            opacity: Math.random() * 0.7 + 0.2,
-            opacitySpeed: (Math.random() - 0.5) * 0.02,
+            opacity: Math.random() * 0.5 + 0.5,
+            opacitySpeed: (Math.random() - 0.5) * 0.012,
             color: colors[Math.floor(Math.random() * colors.length)],
             wobble: Math.random() * Math.PI * 2,
-            wobbleSpeed: Math.random() * 0.03 + 0.01,
+            wobbleSpeed: Math.random() * 0.02 + 0.01,
           });
         }
-      } else if (theme === 'galaxy') {
-        const count = 90;
-        const colors = [
+      }
+      // 2. GALAXY THEME: Silky cosmic starfield & shooting meteors
+      else if (theme === 'galaxy') {
+        const count = 55;
+        const starColors = [
           'rgba(255, 255, 255, ',
           'rgba(192, 132, 252, ',
+          'rgba(168, 85, 247, ',
           'rgba(147, 197, 253, ',
-          'rgba(232, 121, 249, ',
+          'rgba(244, 114, 182, ',
+          'rgba(103, 232, 249, ',
         ];
         for (let i = 0; i < count; i++) {
+          const isLarge = Math.random() < 0.2;
           particles.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            size: Math.random() * 2 + 0.8,
-            speedY: 0,
-            speedX: 0,
-            opacity: Math.random() * 0.8 + 0.1,
+            size: isLarge ? Math.random() * 2 + 1.8 : Math.random() * 1.4 + 0.8,
+            speedX: -(Math.random() * 0.3 + 0.08),
+            speedY: Math.random() * 0.2 + 0.05,
+            opacity: Math.random() * 0.5 + 0.45,
             opacitySpeed: (Math.random() - 0.5) * 0.015,
-            color: colors[Math.floor(Math.random() * colors.length)],
+            color: starColors[Math.floor(Math.random() * starColors.length)],
+            hasFlare: isLarge,
           });
         }
-        shootingStars = [
-          {
-            x: Math.random() * width,
-            y: Math.random() * (height * 0.4),
-            length: Math.random() * 80 + 50,
-            speed: Math.random() * 10 + 12,
-            angle: Math.PI / 4 + (Math.random() - 0.5) * 0.2,
-            opacity: 0,
-            active: false,
-          },
-        ];
-      } else if (theme === 'cherry_blossom') {
-        const count = 35;
+      }
+      // 3. CHERRY BLOSSOM THEME: Drifting sakura petals
+      else if (theme === 'cherry_blossom') {
+        const count = 32;
         const colors = [
           'rgba(251, 113, 133, ',
           'rgba(244, 63, 94, ',
           'rgba(249, 168, 212, ',
           'rgba(253, 164, 175, ',
+          'rgba(255, 228, 230, ',
         ];
         for (let i = 0; i < count; i++) {
           particles.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            size: Math.random() * 7 + 8,
-            speedY: Math.random() * 0.8 + 0.5,
-            speedX: Math.random() * 0.8 + 0.2,
-            opacity: Math.random() * 0.5 + 0.3,
+            size: Math.random() * 5 + 5,
+            speedY: Math.random() * 0.8 + 0.4,
+            speedX: Math.random() * 0.5 + 0.25,
+            opacity: Math.random() * 0.4 + 0.45,
             opacitySpeed: 0,
             color: colors[Math.floor(Math.random() * colors.length)],
             wobble: Math.random() * Math.PI * 2,
-            wobbleSpeed: Math.random() * 0.02 + 0.01,
+            wobbleSpeed: Math.random() * 0.015 + 0.008,
             rotation: Math.random() * Math.PI * 2,
-            rotationSpeed: (Math.random() - 0.5) * 0.02,
+            rotationSpeed: (Math.random() - 0.5) * 0.012,
           });
         }
-      } else if (theme === 'ocean') {
+      }
+      // 4. OCEAN THEME: Rising deep abyss bubbles
+      else if (theme === 'ocean') {
         const count = 35;
         const colors = [
           'rgba(6, 182, 212, ',
+          'rgba(34, 211, 238, ',
           'rgba(14, 165, 233, ',
-          'rgba(45, 212, 191, ',
+          'rgba(56, 189, 248, ',
         ];
         for (let i = 0; i < count; i++) {
           particles.push({
             x: Math.random() * width,
             y: Math.random() * height,
-            size: Math.random() * 5 + 2.5,
-            speedY: -(Math.random() * 0.9 + 0.3),
+            size: Math.random() * 5 + 3,
+            speedY: -(Math.random() * 1.0 + 0.4),
             speedX: 0,
-            opacity: Math.random() * 0.5 + 0.2,
-            opacitySpeed: (Math.random() - 0.5) * 0.01,
+            opacity: Math.random() * 0.45 + 0.45,
+            opacitySpeed: (Math.random() - 0.5) * 0.006,
             color: colors[Math.floor(Math.random() * colors.length)],
             wobble: Math.random() * Math.PI * 2,
-            wobbleSpeed: Math.random() * 0.025 + 0.01,
+            wobbleSpeed: Math.random() * 0.018 + 0.008,
           });
         }
       }
@@ -167,85 +191,124 @@ export const AtmosphericBackground = React.memo<AtmosphericBackgroundProps>(({ t
 
     initParticles();
 
+    let lastFrameTime = performance.now();
     let lastMeteorSpawn = performance.now();
+    const frameInterval = 1000 / 60; // 60 FPS target cap
 
-    const render = () => {
+    const render = (now: number) => {
+      if (!isRunning) return;
+
+      const elapsed = now - lastFrameTime;
+      if (elapsed < frameInterval - 1) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
+      lastFrameTime = now - (elapsed % frameInterval);
+
       ctx.clearRect(0, 0, width, height);
 
-      // =========================================================================
       // 1. VOLCANO THEME
-      // Rising embers + faint bottom magma fissure glow
-      // =========================================================================
       if (theme === 'volcano') {
-        // Bottom magma glow gradient
-        const grad = ctx.createLinearGradient(0, height - 120, 0, height);
-        grad.addColorStop(0, 'rgba(234, 88, 12, 0)');
-        grad.addColorStop(1, 'rgba(220, 38, 38, 0.08)');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, height - 120, width, 120);
-
-        for (const p of particles) {
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
           p.y += p.speedY;
           if (p.wobble !== undefined && p.wobbleSpeed !== undefined) {
             p.wobble += p.wobbleSpeed;
-            p.x += Math.sin(p.wobble) * 0.5 + p.speedX;
+            p.x += Math.sin(p.wobble) * 0.45 + p.speedX;
           } else {
             p.x += p.speedX;
           }
 
           p.opacity += p.opacitySpeed;
-          if (p.opacity > 0.85 || p.opacity < 0.2) {
+          if (p.opacity > 0.95 || p.opacity < 0.3) {
             p.opacitySpeed = -p.opacitySpeed;
           }
 
-          if (p.y < -10) {
-            p.y = height + 10;
+          if (p.y < -20) {
+            p.y = height + 20;
             p.x = Math.random() * width;
           }
-          if (p.x < -10) p.x = width + 10;
-          if (p.x > width + 10) p.x = -10;
+          if (p.x < -20) p.x = width + 20;
+          if (p.x > width + 20) p.x = -20;
 
+          // Glowing ember aura
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+          ctx.fillStyle = `${p.color}${p.opacity * 0.35})`;
+          ctx.fill();
+
+          // Hot ember body
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fillStyle = `${p.color}${Math.max(0.1, Math.min(1, p.opacity))})`;
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = '#f97316';
+          ctx.fillStyle = `${p.color}${p.opacity})`;
           ctx.fill();
-          ctx.shadowBlur = 0;
+
+          // White spark core
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 0.4, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.9})`;
+          ctx.fill();
         }
       }
 
-      // =========================================================================
       // 2. GALAXY THEME
-      // Twinkling stars + shooting meteors
-      // =========================================================================
       else if (theme === 'galaxy') {
-        for (const p of particles) {
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.x += p.speedX;
+          p.y += p.speedY;
+
           p.opacity += p.opacitySpeed;
-          if (p.opacity > 0.95 || p.opacity < 0.1) {
+          if (p.opacity > 0.98 || p.opacity < 0.3) {
             p.opacitySpeed = -p.opacitySpeed;
           }
 
+          if (p.x < -20) {
+            p.x = width + 20;
+            p.y = Math.random() * height;
+          }
+          if (p.y > height + 20) {
+            p.y = -20;
+            p.x = Math.random() * width;
+          }
+
+          // Star glow aura
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 2, 0, Math.PI * 2);
+          ctx.fillStyle = `${p.color}${p.opacity * 0.35})`;
+          ctx.fill();
+
+          // Star bright center
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fillStyle = `${p.color}${Math.max(0.05, Math.min(1, p.opacity))})`;
-          ctx.shadowBlur = p.size > 1.8 ? 6 : 2;
-          ctx.shadowColor = '#c084fc';
+          ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.9})`;
           ctx.fill();
-          ctx.shadowBlur = 0;
+
+          // Subtle twinkle cross on prominent stars
+          if (p.hasFlare && p.opacity > 0.6) {
+            const flareLen = p.size * 2.2;
+            ctx.beginPath();
+            ctx.moveTo(p.x - flareLen, p.y);
+            ctx.lineTo(p.x + flareLen, p.y);
+            ctx.moveTo(p.x, p.y - flareLen);
+            ctx.lineTo(p.x, p.y + flareLen);
+            ctx.strokeStyle = `rgba(255, 255, 255, ${p.opacity * 0.7})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
         }
 
-        // Shooting stars / meteors
-        const now = performance.now();
-        if (now - lastMeteorSpawn > 4500 && Math.random() < 0.02) {
+        // Active meteors / shooting stars
+        if (now - lastMeteorSpawn > 1100 && shootingStars.length < 3) {
           lastMeteorSpawn = now;
           shootingStars.push({
-            x: Math.random() * (width * 0.7),
-            y: Math.random() * (height * 0.3),
-            length: Math.random() * 90 + 60,
-            speed: Math.random() * 12 + 14,
-            angle: Math.PI / 4 + (Math.random() - 0.5) * 0.2,
+            x: Math.random() * (width * 0.8) + width * 0.1,
+            y: Math.random() * (height * 0.4),
+            length: Math.random() * 80 + 50,
+            speed: Math.random() * 7 + 8,
+            angle: Math.PI * 0.25 + (Math.random() - 0.5) * 0.2,
             opacity: 1,
+            color: 'rgba(216, 180, 254, ',
             active: true,
           });
         }
@@ -256,98 +319,91 @@ export const AtmosphericBackground = React.memo<AtmosphericBackgroundProps>(({ t
 
           s.x += Math.cos(s.angle) * s.speed;
           s.y += Math.sin(s.angle) * s.speed;
-          s.opacity -= 0.015;
+          s.opacity -= 0.02;
 
           const tailX = s.x - Math.cos(s.angle) * s.length;
           const tailY = s.y - Math.sin(s.angle) * s.length;
 
-          const meteorGrad = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
-          meteorGrad.addColorStop(0, 'rgba(192, 132, 252, 0)');
-          meteorGrad.addColorStop(1, `rgba(255, 255, 255, ${Math.max(0, s.opacity)})`);
-
           ctx.beginPath();
           ctx.moveTo(tailX, tailY);
           ctx.lineTo(s.x, s.y);
-          ctx.strokeStyle = meteorGrad;
+          ctx.strokeStyle = `rgba(255, 255, 255, ${Math.max(0, s.opacity * 0.85)})`;
           ctx.lineWidth = 2;
-          ctx.shadowBlur = 8;
-          ctx.shadowColor = '#e879f9';
           ctx.stroke();
-          ctx.shadowBlur = 0;
 
-          if (s.opacity <= 0 || s.x > width + 100 || s.y > height + 100) {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0, s.opacity)})`;
+          ctx.fill();
+
+          if (s.opacity <= 0 || s.x > width + 80 || s.y > height + 80) {
             shootingStars.splice(i, 1);
           }
         }
       }
 
-      // =========================================================================
       // 3. CHERRY BLOSSOM THEME
-      // Falling fluttering sakura petals
-      // =========================================================================
       else if (theme === 'cherry_blossom') {
-        for (const p of particles) {
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
           p.y += p.speedY;
           if (p.wobble !== undefined && p.wobbleSpeed !== undefined) {
             p.wobble += p.wobbleSpeed;
-            p.x += Math.sin(p.wobble) * 1.2 + p.speedX;
+            p.x += Math.sin(p.wobble) * 1.1 + p.speedX;
           }
           if (p.rotation !== undefined && p.rotationSpeed !== undefined) {
             p.rotation += p.rotationSpeed;
           }
 
-          if (p.y > height + 20) {
-            p.y = -20;
+          if (p.y > height + 25) {
+            p.y = -25;
             p.x = Math.random() * width;
           }
-          if (p.x > width + 20) p.x = -20;
+          if (p.x > width + 25) p.x = -25;
 
           ctx.save();
           ctx.translate(p.x, p.y);
           ctx.rotate(p.rotation || 0);
-
           ctx.beginPath();
-          // Sakura petal ellipse shape
           ctx.ellipse(0, 0, p.size * 0.45, p.size * 0.85, 0, 0, Math.PI * 2);
           ctx.fillStyle = `${p.color}${p.opacity})`;
           ctx.fill();
-
           ctx.restore();
         }
       }
 
-      // =========================================================================
       // 4. OCEAN THEME
-      // Rising translucent cyan bubbles
-      // =========================================================================
       else if (theme === 'ocean') {
-        for (const p of particles) {
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
           p.y += p.speedY;
           if (p.wobble !== undefined && p.wobbleSpeed !== undefined) {
             p.wobble += p.wobbleSpeed;
-            p.x += Math.sin(p.wobble) * 0.7;
+            p.x += Math.sin(p.wobble) * 0.55;
           }
 
-          if (p.y < -20) {
-            p.y = height + 20;
+          if (p.y < -25) {
+            p.y = height + 25;
             p.x = Math.random() * width;
           }
 
+          // Bubble glow
           ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.fillStyle = `${p.color}${p.opacity * 0.3})`;
+          ctx.arc(p.x, p.y, p.size * 1.3, 0, Math.PI * 2);
+          ctx.fillStyle = `${p.color}${p.opacity * 0.25})`;
           ctx.fill();
 
+          // Bubble rim
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-          ctx.strokeStyle = `${p.color}${p.opacity})`;
-          ctx.lineWidth = 1;
+          ctx.strokeStyle = `${p.color}${p.opacity * 0.9})`;
+          ctx.lineWidth = 1.4;
           ctx.stroke();
 
-          // Highlight dot on bubble
+          // Highlight
           ctx.beginPath();
           ctx.arc(p.x - p.size * 0.3, p.y - p.size * 0.3, p.size * 0.25, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.7})`;
+          ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * 0.85})`;
           ctx.fill();
         }
       }
@@ -355,21 +411,37 @@ export const AtmosphericBackground = React.memo<AtmosphericBackgroundProps>(({ t
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    animationFrameId = requestAnimationFrame(render);
 
     return () => {
+      isRunning = false;
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       cancelAnimationFrame(animationFrameId);
+      if (resizeTimeout) clearTimeout(resizeTimeout);
     };
   }, [theme]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      id="atmospheric-ambient-canvas"
-      aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-0 h-full w-full opacity-90 transition-opacity duration-700"
-    />
+    <div className="pointer-events-none fixed inset-0 z-0 h-full w-full overflow-hidden">
+      {/* CSS-accelerated cosmic nebula glows for Galaxy theme */}
+      {theme === 'galaxy' && (
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-65">
+          <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-purple-600/20 blur-3xl animate-pulse" />
+          <div className="absolute top-1/3 -right-20 h-96 w-96 rounded-full bg-fuchsia-600/15 blur-3xl" />
+          <div className="absolute -bottom-24 left-1/3 h-96 w-96 rounded-full bg-cyan-600/15 blur-3xl" />
+        </div>
+      )}
+
+      {/* High-performance hardware-accelerated particle canvas */}
+      <canvas
+        ref={canvasRef}
+        id="atmospheric-bg-canvas"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full will-change-transform"
+        style={{ transform: 'translate3d(0, 0, 0)', backfaceVisibility: 'hidden' }}
+      />
+    </div>
   );
 });
 
