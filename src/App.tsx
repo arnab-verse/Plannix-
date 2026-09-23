@@ -183,18 +183,13 @@ export default function App() {
 
   // Dynamic theme attribute sync
   useEffect(() => {
-    if (!isAuthenticatedThisVisit || !currentUser) {
-      document.documentElement.setAttribute('data-theme', 'volcano');
-      document.documentElement.classList.add('dark');
+    document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'cherry_blossom') {
+      document.documentElement.classList.remove('dark');
     } else {
-      document.documentElement.setAttribute('data-theme', theme);
-      if (theme === 'cherry_blossom') {
-        document.documentElement.classList.remove('dark');
-      } else {
-        document.documentElement.classList.add('dark');
-      }
+      document.documentElement.classList.add('dark');
     }
-  }, [theme, isAuthenticatedThisVisit, currentUser]);
+  }, [theme]);
 
   const handleSelectTheme = (newTheme: AppTheme) => {
     setTheme(newTheme);
@@ -208,7 +203,7 @@ export default function App() {
   };
 
   // Add a new task (either for today or a chosen date)
-  const handleAddTask = async (title: string, notes?: string, assignedDate?: string) => {
+  const handleAddTask = useCallback(async (title: string, notes?: string, assignedDate?: string) => {
     const targetDate = assignedDate || getTodayLocalStr();
     const newTask: DailyTask = {
       id: `task_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
@@ -231,14 +226,13 @@ export default function App() {
       ],
     };
 
-    const next = [...tasks, newTask];
-    setTasks(next);
+    setTasks((prev) => [...prev, newTask]);
     await saveTask(newTask);
     playChimeSound('create');
-  };
+  }, []);
 
   // Toggle complete (pending -> completed_on_time, or missed -> completed_late, or undo)
-  const handleToggleComplete = async (task: DailyTask) => {
+  const handleToggleComplete = useCallback(async (task: DailyTask) => {
     const nowIso = new Date().toISOString();
     let updated: DailyTask;
 
@@ -293,42 +287,48 @@ export default function App() {
       };
     }
 
-    const next = tasks.map((t) => (t.id === task.id ? updated : t));
-    setTasks(next);
+    setTasks((prev) => prev.map((t) => (t.id === task.id ? updated : t)));
     await saveTask(updated);
-  };
+  }, []);
 
   // Edit task title and notes
-  const handleEditTask = async (id: string, newTitle: string, newNotes?: string) => {
+  const handleEditTask = useCallback(async (id: string, newTitle: string, newNotes?: string) => {
     const nowIso = new Date().toISOString();
-    const task = tasks.find((t) => t.id === id);
-    if (!task) return;
+    let updatedTask: DailyTask | undefined;
 
-    const updated: DailyTask = {
-      ...task,
-      title: newTitle,
-      notes: newNotes,
-      lastModified: nowIso,
-      historyLog: [
-        ...(task.historyLog || []),
-        {
-          timestamp: nowIso,
-          action: 'Task Edited',
-          details: `Updated title to "${newTitle}"`,
-        },
-      ],
-    };
+    setTasks((prev) => {
+      const task = prev.find((t) => t.id === id);
+      if (!task) return prev;
 
-    const next = tasks.map((t) => (t.id === id ? updated : t));
-    setTasks(next);
-    await saveTask(updated);
-  };
+      updatedTask = {
+        ...task,
+        title: newTitle,
+        notes: newNotes,
+        lastModified: nowIso,
+        historyLog: [
+          ...(task.historyLog || []),
+          {
+            timestamp: nowIso,
+            action: 'Task Edited',
+            details: `Updated title to "${newTitle}"`,
+          },
+        ],
+      };
+      return prev.map((t) => (t.id === id ? updatedTask! : t));
+    });
+
+    if (updatedTask) {
+      await saveTask(updatedTask);
+    }
+  }, []);
 
   // Delete task with 5-second Undo capability
-  const handleDeleteTask = async (id: string) => {
-    const taskToDelete = tasks.find((t) => t.id === id);
-    const next = tasks.filter((t) => t.id !== id);
-    setTasks(next);
+  const handleDeleteTask = useCallback(async (id: string) => {
+    let taskToDelete: DailyTask | undefined;
+    setTasks((prev) => {
+      taskToDelete = prev.find((t) => t.id === id);
+      return prev.filter((t) => t.id !== id);
+    });
     await deleteTaskFromDb(id);
 
     if (taskToDelete) {
@@ -337,7 +337,7 @@ export default function App() {
       }
       setDeletedTaskUndo({
         task: taskToDelete,
-        id: `${taskToDelete.id}-${Date.now()}`,
+        id: `${(taskToDelete as DailyTask).id}-${Date.now()}`,
       });
 
       undoTimerRef.current = setTimeout(() => {
@@ -345,7 +345,7 @@ export default function App() {
         undoTimerRef.current = null;
       }, 5000);
     }
-  };
+  }, []);
 
   // Restore deleted task from Undo
   const handleUndoDelete = async () => {
@@ -603,16 +603,16 @@ export default function App() {
                 onNavigateToAuth={() => setIsAuthOpen(true)}
                 onLogout={async () => {
                   await signOutMock();
-                  setCurrentUser(null);
+      setCurrentUser(null);
                 }}
               />
             )}
 
-            {/* Dashboard Bottom: 𝑴𝒂𝒅𝒆 𝑩𝒚 𝑨𝒓𝒏𝒂𝒃𝑽𝒆𝒓𝒔𝒆 */}
+            {/* Dashboard Bottom: 𝑪𝒓𝒂𝒇𝒕𝒆𝒅 𝑩𝒚 𝑨𝒓𝒏𝒂𝒃𝑽𝒆𝒓𝒔𝒆 */}
             <footer className="mt-14 mb-4 flex justify-center text-center">
-              <div className="fancy-arnab-badge shadow-md" title="𝑴𝒂𝒅𝒆 𝑩𝒚 𝑨𝒓𝒏𝒂𝒃𝑽𝒆𝒓𝒔𝒆">
+              <div className="fancy-arnab-badge shadow-md" title="Crafted by ArnabVerse">
                 <span className="fancy-arnab-text text-xs sm:text-sm tracking-wide select-none">
-                  𝑴𝒂𝒅𝒆 𝑩𝒚 𝑨𝒓𝒏𝒂𝒃𝑽𝒆𝒓𝒔𝒆
+                  𝑪𝒓𝒂𝒇𝒕𝒆𝒅 𝑩𝒚 𝑨𝒓𝒏𝒂𝒃𝑽𝒆𝒓𝒔𝒆
                 </span>
               </div>
             </footer>
@@ -692,4 +692,4 @@ export default function App() {
       </AnimatePresence>
     </div>
   );
-}
+                  }
