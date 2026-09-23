@@ -41,7 +41,7 @@ interface TodayDashboardProps {
   onSelectMetricFilter?: (filter: 'all' | 'on_time' | 'late' | 'missed') => void;
 }
 
-export const TodayDashboard: React.FC<TodayDashboardProps> = ({
+export const TodayDashboard: React.FC<TodayDashboardProps> = React.memo(({
   tasks,
   allTasks = [],
   onAddTask,
@@ -630,4 +630,6 @@ export const TodayDashboard: React.FC<TodayDashboardProps> = ({
       )}
     </div>
   );
-};
+});
+
+TodayDashboard.displayName = 'TodayDashboard';
