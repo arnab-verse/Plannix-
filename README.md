@@ -11,7 +11,6 @@
 > **A modern, responsive, deadline-aware daily task management and productivity powerhouse.** Features automatic midnight rollover, visual calendar history, velocity analytics, dynamic atmospheric themes, and AI timeline planning.
 
 🌐 **Live Demo:** [https://plannix.pages.dev](https://plannix.pages.dev)  
-✨ **Signature:** *𝑴𝒂𝒅𝒆 𝑩𝒚 𝑨𝒓𝒏𝒂𝒃𝑽𝒆𝒓𝒔𝒆*
 
 ---
 
